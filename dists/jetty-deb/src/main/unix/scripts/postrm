@@ -1,48 +1,42 @@
-#!/bin/bash
+#!/bin/sh
+set -e
 
-#rm -f /etc/init.d/jetty
+if [ "$1" = "purge" ] ; then
+    update-rc.d jetty remove >/dev/null
+fi
 
- case "$1" in
-  purge)
- [...]
-    # find first and last SYSTEM_UID numbers
-    for LINE in `grep SYSTEM_UID /etc/adduser.conf | grep -v "^#"`; do
-       case $LINE in
-          FIRST_SYSTEM_UID*)
-            FIST_SYSTEM_UID=`echo $LINE | cut -f2 -d '='`
-            ;;
-          LAST_SYSTEM_UID*)
-            LAST_SYSTEM_UID=`echo $LINE | cut -f2 -d '='`
-            ;;
-          *)
-            ;;
-          esac
-    done
-    # Remove system account if necessary
-    CREATEDUSER="jetty"
-    if [ -n "$FIST_SYSTEM_UID" ] && [ -n "$LAST_SYSTEM_UID" ]; then
-     if USERID=`getent passwd $CREATEDUSER | cut -f 3 -d ':'`; then
-       if [ -n "$USERID" ]; then
-         if [ "$FIST_SYSTEM_UID" -le "$USERID" ] && \
-            [ "$USERID" -le "$LAST_SYSTEM_UID" ]; then
-               echo -n "Removing $CREATEDUSER system user.."
-               deluser --quiet $CREATEDUSER || true
-               echo "..done"
-         fi
-       fi
-     fi
-   fi
-   # Remove system group if necessary
-   CREATEDGROUP="jetty"
-   FIRST_USER_GID=`grep ^USERS_GID /etc/adduser.conf | cut -f2 -d '='`
-   if [ -n "$FIST_USER_GID" ] then
-     if GROUPGID=`getent group $CREATEDGROUP | cut -f 3 -d ':'`; then
-       if [ -n "$GROUPGID" ]; then
-         if [ "$FIST_USER_GID" -gt "$GROUPGID" ]; then
-           echo -n "Removing $CREATEDGROUP group.."
-           delgroup --only-if-empty $CREATEDGROUP || true
-           echo "..done"
-         fi
-       fi
-     fi
-   fi
+# Remove cached files
+rm -rf /var/cache/jetty/*
+
+case "$1" in
+    remove)
+        if [ -d "/var/lib/jetty" ] ; then
+            rmdir --ignore-fail-on-non-empty \
+                /var/lib/jetty/webapps \
+                /var/lib/jetty || true
+        fi
+        if [ -d "/var/cache/jetty" ] ; then
+            rm -rf /var/cache/jetty
+        fi
+    ;;
+
+    purge)
+        # Remove user/group and log files (don't remove everything under
+        # /var/lib/jetty because there might be user-installed webapps)
+        deluser jetty || true
+        rm -rf /var/log/jetty
+        if [ -d "/var/lib/jetty" ] ; then
+            rmdir --ignore-fail-on-non-empty \
+                /var/lib/jetty/webapps \
+                /var/lib/jetty || true
+        fi
+    ;;
+
+    remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+    ;;
+
+    *)
+        echo "$0 called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac

@@ -1,20 +1,29 @@
-#!/bin/bash
+#!/bin/sh
+set -e
 
-LOG_DIR=/var/lib/jetty9/logs
-WEBAPP_DIR=/var/lib/jetty9/webapps
+case "$1" in
+    configure)
+        if ! id jetty > /dev/null 2>&1 ; then
+            adduser --system --home /usr/share/jetty --no-create-home \
+                --group --disabled-password --shell /bin/false \
+                jetty
+        fi
+        chown -R jetty:adm /var/cache/jetty /var/log/jetty /var/lib/jetty
+        chmod 750 /var/log/jetty
+    ;;
 
-# copy the jetty start script into place
-cp /usr/share/jetty9/bin/jetty.sh /etc/init.d/jetty
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
 
-# make it generally executable
-chmod 755 /etc/init.d/jetty
+    *)
+        echo "$0 called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
 
-# ensure we have a logging directory
-if [ ! -d "$LOG_DIR" ]; then
-  mkdir $LOG_DIR
-fi
-
-# ensure we have a webapps directory
-if [ ! -d "$WEBAPP_DIR" ]; then
-  mkdir $WEBAPP_DIR
+if [ -x "/etc/init.d/jetty" ]; then
+    if [ ! -e "/etc/init/jetty.conf" ]; then
+        update-rc.d jetty defaults >/dev/null
+    fi
+    invoke-rc.d jetty start || exit $?
 fi
