@@ -21,7 +21,6 @@ package org.eclipse.jetty.io;
 import java.io.IOException;
 import java.nio.channels.ClosedChannelException;
 import java.nio.channels.ReadPendingException;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jetty.util.Callback;
@@ -49,7 +48,6 @@ public abstract class FillInterest
     /** Call to register interest in a callback when a read is possible.
      * The callback will be called either immediately if {@link #needsFill()} 
      * returns true or eventually once {@link #fillable()} is called.
-     * @param context
      * @param callback
      * @throws ReadPendingException
      */

@@ -119,6 +119,7 @@ public class ReferrerPushStrategyTest extends AbstractHTTPSPDYTest
     @Test
     public void testClientResetsPushStreams() throws Exception
     {
+        ((StdErrLog)Log.getLogger("org.eclipse.jetty.server.HttpChannel")).setHideStacks(true);
         sendMainRequestAndCSSRequest(null, false);
         final CountDownLatch pushDataLatch = new CountDownLatch(1);
         final CountDownLatch pushSynHeadersValid = new CountDownLatch(1);
@@ -130,6 +131,7 @@ public class ReferrerPushStrategyTest extends AbstractHTTPSPDYTest
         assertThat("Push push headers valid", pushSynHeadersValid.await(5, TimeUnit.SECONDS), is(true));
 
         sendRequest(session, associatedCSSRequestHeaders, pushSynHeadersValid, pushDataLatch, true);
+        ((StdErrLog)Log.getLogger("org.eclipse.jetty.server.HttpChannel")).setHideStacks(false);
     }
 
     @Test

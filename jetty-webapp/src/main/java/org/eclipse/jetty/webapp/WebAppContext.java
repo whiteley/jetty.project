@@ -31,7 +31,6 @@ import java.util.EventListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -657,13 +656,13 @@ public class WebAppContext extends ServletContextHandler implements WebAppClassL
 
     /* ------------------------------------------------------------ */
     /** Add to the list of Server classes.
-     * @see #setServerClasses(String[])
-     * @see http://www.eclipse.org/jetty/documentation/current/jetty-classloading.html
      * @param classOrPackage A fully qualified class name (eg com.foo.MyClass) 
      * or a qualified package name ending with '.' (eg com.foo.).  If the class 
      * or package has '-' it is excluded from the server classes and order is thus
      * important when added system class patterns. This argument may also be a comma 
      * separated list of classOrPackage patterns.
+     * @see #setServerClasses(String[])
+     * @see <a href="http://www.eclipse.org/jetty/documentation/current/jetty-classloading.html">Jetty Documentation: Classloading</a>
      */
     public void addServerClass(String classOrPackage)
     {
@@ -675,13 +674,13 @@ public class WebAppContext extends ServletContextHandler implements WebAppClassL
 
     /* ------------------------------------------------------------ */
     /** Prepend to the list of Server classes.
-     * @see #setServerClasses(String[])
-     * @see http://www.eclipse.org/jetty/documentation/current/jetty-classloading.html
      * @param classOrPackage A fully qualified class name (eg com.foo.MyClass) 
      * or a qualified package name ending with '.' (eg com.foo.).  If the class 
      * or package has '-' it is excluded from the server classes and order is thus
      * important when added system class patterns. This argument may also be a comma 
      * separated list of classOrPackage patterns.
+     * @see #setServerClasses(String[])
+     * @see <a href="http://www.eclipse.org/jetty/documentation/current/jetty-classloading.html">Jetty Documentation: Classloading</a>
      */
     public void prependServerClass(String classOrPackage)
     {
@@ -707,13 +706,13 @@ public class WebAppContext extends ServletContextHandler implements WebAppClassL
 
     /* ------------------------------------------------------------ */
     /** Add to the list of System classes.
-     * @see http://www.eclipse.org/jetty/documentation/current/jetty-classloading.html
-     * @see #setSystemClasses(String[])
      * @param classOrPackage A fully qualified class name (eg com.foo.MyClass) 
      * or a qualified package name ending with '.' (eg com.foo.).  If the class 
      * or package has '-' it is excluded from the system classes and order is thus
      * important when added system class patterns.  This argument may also be a comma 
      * separated list of classOrPackage patterns.
+     * @see #setSystemClasses(String[])
+     * @see <a href="http://www.eclipse.org/jetty/documentation/current/jetty-classloading.html">Jetty Documentation: Classloading</a>
      */
     public void addSystemClass(String classOrPackage)
     {
@@ -726,13 +725,13 @@ public class WebAppContext extends ServletContextHandler implements WebAppClassL
 
     /* ------------------------------------------------------------ */
     /** Prepend to the list of System classes.
-     * @see #setSystemClasses(String[])
-     * @see http://www.eclipse.org/jetty/documentation/current/jetty-classloading.html
      * @param classOrPackage A fully qualified class name (eg com.foo.MyClass) 
      * or a qualified package name ending with '.' (eg com.foo.).  If the class 
      * or package has '-' it is excluded from the system classes and order is thus
      * important when added system class patterns.This argument may also be a comma 
      * separated list of classOrPackage patterns.
+     * @see #setSystemClasses(String[])
+     * @see <a href="http://www.eclipse.org/jetty/documentation/current/jetty-classloading.html">Jetty Documentation: Classloading</a>
      */
     public void prependSystemClass(String classOrPackage)
     {
