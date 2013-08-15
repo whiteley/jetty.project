@@ -1,4 +1,4 @@
-jetty-9.1.0.M0 - 13 August 2013
+jetty-9.1.0.M0 - 15 August 2013
  + 393473 Add support for JSR-356 (javax.websocket) draft
  + 396562 Add an implementation of RequestLog that supports Slf4j
  + 398467 Servlet 3.1 Non Blocking IO
@@ -62,6 +62,7 @@ jetty-9.1.0.M0 - 13 August 2013
    invalidated
  + 413291 Avoid SPDY double dispatch
  + 413531 Introduce pluggable transports for HttpClient.
+ + 413737 hide stacktrace in ReferrerPushStrategyTest
  + 413901 isAsyncStarted remains true while original request is dispatched
  + 414167 WebSocket handshake upgrade from FireFox fails due to keep-alive
  + 414635 Modular start.d and jetty.base property
@@ -72,9 +73,12 @@ jetty-9.1.0.M0 - 13 August 2013
  + 414740 Removed the parent peeking Loader
  + 414891 Errors thrown by ReadListener and WriteListener not handled
    correctly.
+ + 414898 Only upgrade v0 to v1 cookies on dquote , ; backslash space and tab
+   in the value
  + 414913 WebSocket / Performance - reduce ByteBuffer allocation/copying during
    generation/writing
  + 414923 CompactPathRule needs to also compact the uri
+ + 415131 Avoid autoboxing on debug
 
 jetty-9.0.5.v20130813 - 13 August 2013
  + 404468 Ported jetty-http-spi to Jetty-9
