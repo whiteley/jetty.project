@@ -303,15 +303,7 @@ case "$1" in
         $JAVA_OPTIONS -jar $START_JAR $JETTY_ARGS --daemon $CONFIGS
 
     log_daemon_msg "$DESC started, reachable on http://$HOSTNAME:$JETTY_PORT/." "$NAME"
-
-    sleep 5
-    if start-stop-daemon --test --start --pidfile "$PIDFILE" \
-      --user $JETTY_USER --startas "$JAVA" >/dev/null; then
-      log_end_msg 1
-    else
-      log_end_msg 0
-    fi
-
+    log_end_msg 0
   else
     log_warning_msg "(already running)."
     log_end_msg 0
